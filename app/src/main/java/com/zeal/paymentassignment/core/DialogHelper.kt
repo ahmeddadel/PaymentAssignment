@@ -56,7 +56,7 @@ object DialogHelper {
 
     fun hideLoading(activity: Activity) {
         activity.runOnUiThread {
-            loadingDialog?.hide()
+            loadingDialog?.cancel()
         }
     }
 
