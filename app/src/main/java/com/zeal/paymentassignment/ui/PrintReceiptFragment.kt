@@ -27,7 +27,9 @@ class PrintReceiptFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvAmount.text = FlowDataObject.getInstance().amount.toString();
+        binding.tvAmountBeforeDiscountValue.text = FlowDataObject.getInstance().amount.toString()
+        binding.tvDiscountValue.text = FlowDataObject.getInstance().discount.toString()
+        binding.tvAmountAfterDiscountValue.text = FlowDataObject.getInstance().amountAfterDiscount.toString()
 
         binding.btnPrint.setOnClickListener {}
 

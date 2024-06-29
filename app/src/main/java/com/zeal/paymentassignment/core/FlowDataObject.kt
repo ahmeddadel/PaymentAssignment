@@ -16,6 +16,8 @@ class FlowDataObject {
     var entryMode: EntryMode = EntryMode.Emv
     var flowType: FlowType = FlowType.SALE
     var amount: Float = 0f;
+    var discount: Float = 0f;
+    var amountAfterDiscount: Float = 0f;
     var pan: String? = null;
     var expire: String? = null;
     var aid: String? = null;
