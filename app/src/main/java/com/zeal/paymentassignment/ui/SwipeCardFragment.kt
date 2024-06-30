@@ -95,7 +95,7 @@ class SwipeCardFragment : Fragment() {
 
     private fun contactBank() {
         Thread {
-            DialogHelper.showLoadingDialog(requireActivity(), "Sending Transaction to The Bank")
+            DialogHelper.showLoadingDialog(requireActivity(), "Sending Transaction to The Bank\n(${FlowDataObject.getInstance().amountAfterDiscount} USD)")
             Thread.sleep(2000)
             DialogHelper.showLoadingDialog(requireActivity(), "Receiving Bank Response")
             Thread.sleep(1000)
