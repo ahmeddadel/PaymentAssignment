@@ -73,13 +73,17 @@ object DialogHelper {
         activity.runOnUiThread {
             val dialogView = LoadingDialog2Binding.inflate(LayoutInflater.from(activity))
             dialogView.tvContent.text = title;
-            val dialogBuilder = AlertDialog.Builder(activity)
+            val dialog = AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                 .setView(dialogView.root)
                 .setTitle("Loading")
+                .create()
+
+            dialog.setCanceledOnTouchOutside(false) // Prevent dialog from closing on outside touch
+            dialog.setCancelable(false) // Prevent dialog from closing on back press
 
             loadingDialog?.dismiss();
-            loadingDialog = dialogBuilder.show()
-
+            loadingDialog = dialog
+            loadingDialog?.show()
         }
     }
 
