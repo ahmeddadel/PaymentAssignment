@@ -16,42 +16,73 @@
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/success_icon" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvAmountBeforeDiscount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="Amount Before Discount: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Done with Amount: " />
+        <TextView
+            android:id="@+id/tvAmountBeforeDiscountValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="@id/tvAmountBeforeDiscount"
+            app:layout_constraintStart_toEndOf="@id/tvAmountBeforeDiscount"
+            app:layout_constraintTop_toTopOf="@id/tvAmountBeforeDiscount" />
 
-            <TextView
-                android:id="@+id/tvAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvDiscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Discount: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAmountBeforeDiscount" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/receipt" />
+        <TextView
+            android:id="@+id/tvDiscountValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="@id/tvDiscount"
+            app:layout_constraintStart_toEndOf="@id/tvDiscount"
+            app:layout_constraintTop_toTopOf="@id/tvDiscount" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tvAmountAfterDiscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done with Amount: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDiscount" />
+
+        <TextView
+            android:id="@+id/tvAmountAfterDiscountValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="@id/tvAmountAfterDiscount"
+            app:layout_constraintStart_toEndOf="@id/tvAmountAfterDiscount"
+            app:layout_constraintTop_toTopOf="@id/tvAmountAfterDiscount" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/receipt" />
 
     <LinearLayout
         android:layout_width="match_parent"
