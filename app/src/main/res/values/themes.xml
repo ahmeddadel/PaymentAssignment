@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.PaymentAssignment" parent="Base.Theme.PaymentAssignment" />
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/white_curvy</item>
+    </style>
 </resources>

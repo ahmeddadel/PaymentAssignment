@@ -40,7 +40,7 @@ class SwipeCardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        DialogHelper.showPanDialog(requireContext(), { cardId ->
+        DialogHelper.showPanDialog(requireActivity(), { cardId ->
             FlowDataObject.getInstance().pan = cardId
             val intent = Intent(ACTION_APPLY_DISCOUNT)
             intent.addCategory(DISCOUNT_CATEGORY)
@@ -95,7 +95,10 @@ class SwipeCardFragment : Fragment() {
 
     private fun contactBank() {
         Thread {
-            DialogHelper.showLoadingDialog(requireActivity(), "Sending Transaction to The Bank\n(${FlowDataObject.getInstance().amountAfterDiscount} USD)")
+            DialogHelper.showLoadingDialog(
+                requireActivity(),
+                "Sending Transaction to The Bank\n(${FlowDataObject.getInstance().amountAfterDiscount} USD)"
+            )
             Thread.sleep(2000)
             DialogHelper.showLoadingDialog(requireActivity(), "Receiving Bank Response")
             Thread.sleep(1000)

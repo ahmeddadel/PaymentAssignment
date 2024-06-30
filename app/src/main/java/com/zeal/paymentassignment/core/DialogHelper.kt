@@ -3,40 +3,71 @@ package com.zeal.paymentassignment.core
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.view.KeyEvent
 import android.view.LayoutInflater
-import android.widget.EditText
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.zeal.paymentassignment.R
+import com.zeal.paymentassignment.databinding.CardNumberDialogBinding
 import com.zeal.paymentassignment.databinding.LoadingDialog2Binding
 import java.util.function.Consumer
 
 object DialogHelper {
 
-    var loadingDialog: Dialog? = null;
+    private var loadingDialog: Dialog? = null;
 
-    fun showPanDialog(context: Context, onDone: Consumer<String>, onClose: Runnable) =
-        context.apply {
-            val dialogView = LayoutInflater.from(this).inflate(R.layout.card_number_dialog, null)
-            val editTextCardId = dialogView.findViewById<EditText>(R.id.editTextCardId)
-            val dialogBuilder = AlertDialog.Builder(this)
-                .setView(dialogView)
+    fun showPanDialog(activity: Activity, onDone: Consumer<String>, onClose: Runnable) =
+        activity.apply {
+            val dialogView = CardNumberDialogBinding.inflate(LayoutInflater.from(this))
+            val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                .setView(dialogView.root)
                 .setTitle("Enter Amount and Card ID")
-                .setPositiveButton("Submit") { dialog, _ ->
-                    val cardId = editTextCardId.text.toString()
-                    if (cardId.isNotEmpty()) {
-                        onDone.accept(cardId)
-                        dialog.dismiss()
-                    } else {
-                        Toast.makeText(this, "Please enter valid inputs", Toast.LENGTH_LONG).show();
-                    }
+                .create()
+
+            dialog.setCanceledOnTouchOutside(false) // Prevent dialog from closing on outside touch
+            dialog.setCancelable(false) // Prevent dialog from closing on back press
+
+            dialogView.btnSubmit.setOnClickListener {
+                handleSubmit(dialogView.editTextCardId.text.toString(), onDone, dialog)
+            }
+            dialogView.editTextCardId.setOnEditorActionListener { _, actionId, keyEvent ->
+                if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent?.keyCode == KeyEvent.KEYCODE_ENTER) {
+                    handleSubmit(dialogView.editTextCardId.text.toString(), onDone, dialog)
+                    return@setOnEditorActionListener true
                 }
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    onClose.run()
-                    dialog.dismiss()
-                }
-            dialogBuilder.show()
+                return@setOnEditorActionListener false
+            }
+
+            dialogView.btnCancel.setOnClickListener {
+                onClose.run()
+                dialog.dismiss()
+            }
+
+            dialog.show()
+            Handler(Looper.getMainLooper()).postDelayed({
+                showSoftKeyboard(this@apply, dialogView.editTextCardId)
+            }, 250) // to let the dialog show first
         }
+
+    private fun handleSubmit(cardId: String, onDone: Consumer<String>, dialog: AlertDialog) {
+        if (cardId.isNotEmpty()) {
+            onDone.accept(cardId)
+            dialog.dismiss()
+        } else {
+            Toast.makeText(dialog.context, "Please enter valid inputs", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun showSoftKeyboard(context: Context, view: View) {
+        view.requestFocus()
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
 
     fun showLoadingDialog(activity: Activity, title: String) {
         activity.runOnUiThread {
@@ -50,8 +81,6 @@ object DialogHelper {
             loadingDialog = dialogBuilder.show()
 
         }
-
-
     }
 
     fun hideLoading(activity: Activity) {
@@ -59,6 +88,4 @@ object DialogHelper {
             loadingDialog?.cancel()
         }
     }
-
-
 }
